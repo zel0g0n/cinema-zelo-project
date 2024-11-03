@@ -1,8 +1,14 @@
+import Header from "../header/header"
+import Hero from "../hero/hero"
+import RowMovies from "../row-movies/row-movies"
+import './app.scss'
 const App = () => {
 
   return (
     <div className="app">
-      App
+      <Header/>
+      <Hero/>
+      <RowMovies/>
     </div>
   )
 }

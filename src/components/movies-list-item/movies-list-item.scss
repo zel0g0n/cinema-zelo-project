@@ -1,0 +1,26 @@
+@import '../../style/variables.scss';
+.rowmovies__list-item {
+  
+  &--img {
+    transition: all .3s ease;
+    margin-bottom: 20px;
+    &:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+  }
+  &--name {
+    font-size: 18px;
+    font-weight: normal;
+    margin-bottom: 16px;
+  }
+  &--info {
+    font-size: 16px;
+    span {
+      margin-right: 6px;
+    }
+    .br-dot {
+      color: $primary;
+    }
+  }
+}

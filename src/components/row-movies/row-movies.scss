@@ -1,13 +1,14 @@
 @import '../../style/variables.scss';
 .rowmovies {
   width: 1330px;
-  margin: 60px auto;
+  margin: 100px auto;
   &__top {
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
     gap: 20px;
     width: 100%;
+    margin-bottom: 60px;
     &-title {
       display: flex;
       align-items: center;
@@ -30,5 +31,14 @@
         color: $primary;
       }
     }
-  }
+  };
+  &__list {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5,auto);
+    justify-content: space-between;
+    row-gap: 50px;
+    
+  };
+
 }

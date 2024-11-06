@@ -51,8 +51,6 @@ class RowMovies extends React.Component {
     })
   }
   render() {
-    const a = 1
-    a++
     return (
       <div className='rowmovies'>
         

@@ -1,15 +1,23 @@
-// import React from 'react'
+import PropTypes from 'prop-types'
 import './movie-info.scss'
-const MovieInfo = () => {
+const MovieInfo = (props) => {
+  const {name, thumb, descr} = props.data
   return (
     <div className='movie-info'>
-      <img src="./image2.svg" alt="img" />
-      <p className="movie-info--title">Title</p>
+      <img src={thumb} alt="img" />
+      <p className="movie-info--title">{name}</p>
       <p className="movie-info--descr">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quos iure facilis labore officia laboriosam natus! Iure quisquam esse quibusdam.
+        {descr}
       </p>
     </div>
   )
 }
 
+MovieInfo.propTypes = {
+  data: PropTypes.shape({
+    name: PropTypes.string,
+    thumb: PropTypes.string,
+    descr: PropTypes.string,
+  })
+}
 export default MovieInfo

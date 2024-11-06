@@ -7,13 +7,12 @@ import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 import MovieInfo from '../movie-info/movie-info'
 class RowMovies extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
+    state = {
       movieList: [],
       open: false,
+      detailsMovie: {},
+      page: 2
     }
-  }
 
 
   movieService = new MovieService()
@@ -22,18 +21,38 @@ class RowMovies extends React.Component {
     this.movieService._filterPopularMovie()
     .then(res => {
       this.setState({movieList: res})
-      console.log(res)
     })
   }
   
+  loadMoreMovies = () => {
+    const {page} = this.state
+    this.movieService.loadMore(page)
+    .then(res => {
+      this.setState(({page,movieList}) => (
+        {
+          page: page+1,
+          movieList: [...movieList,...res]
+        }
+      ))
+    })
+  }
   componentDidMount() {
     this.getPopularMovies()
   }
-  onToggle = () => {
-    this.setState(state => ({open: !state.open}))
+  closeModal = () => {
+    this.setState({open: false})
+    
   }
 
+  openModal  = (id) => {
+    this.movieService.getDetailedMovie(id)
+    .then(res => {
+      this.setState({detailsMovie: res,open: true})
+    })
+  }
   render() {
+    const a = 1
+    a++
     return (
       <div className='rowmovies'>
         
@@ -46,10 +65,13 @@ class RowMovies extends React.Component {
           <a href="#" className="rowmovies__top-more">See More</a>
         </div>
         <ul className="rowmovies__list">
-          {this.state.movieList.map( item => (<MoviesListItem key={item.id} data={item} onToggle={this.onToggle}/>))}
+          {this.state.movieList.map( item => (<MoviesListItem key={item.id} data={item} openModal={() => this.openModal(item.id)}/>))}
         </ul>
-        <Modal open={this.state.open} onClose={this.onToggle}>
-          <MovieInfo></MovieInfo>
+        <div className='load-more'>
+          <button onClick={this.loadMoreMovies} className="btn btn-primary">Load More...</button>
+        </div>
+        <Modal open={this.state.open} onClose={this.closeModal}>
+          <MovieInfo data={this.state.detailsMovie}></MovieInfo>
         </Modal>
       </div>
     )

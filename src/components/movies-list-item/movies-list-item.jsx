@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types'
 import './movies-list-item.scss'
 
-const MoviesListItem = ({data,onToggle}) => {
+const MoviesListItem = ({data,openModal}) => {
   const {thumb,alt,release,name,} = data
-  console.log(name)
   return (
-    <li onClick={onToggle} className='rowmovies__list-item'>
-      <img src={thumb}  alt={alt} className="rowmovies__list-item--img" />
+    <li onClick={openModal} className='rowmovies__list-item'>
+      <img src={thumb}   alt={alt} className="rowmovies__list-item--img" />
       <p className="rowmovies__list-item--name">{name}</p>
       <p className="rowmovies__list-item--info">
         <span>{release}</span>
@@ -20,6 +19,6 @@ const MoviesListItem = ({data,onToggle}) => {
 }
 MoviesListItem.propTypes = {
   data: PropTypes.object,
-  onToggle: PropTypes.func,
+  openModal: PropTypes.func,
 }
 export default MoviesListItem

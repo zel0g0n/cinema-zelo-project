@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import './hero.scss'
 import { MovieService } from '../movie-service/movie-service'
 class Hero extends React.Component {
@@ -23,9 +24,7 @@ class Hero extends React.Component {
       console.log(`Error: ${err}`)
     })
     .finally(() => {
-      if(!this.state.err) {
-        this.setState({isLoad: true})
-      }
+      this.setState({isLoad: true})
     })
   }
   
@@ -73,11 +72,6 @@ class Hero extends React.Component {
 export default Hero
 
 class HeroMovie extends React.Component {
-  constructor(props) {
-    super(props)
-
-
-  }
 
   render() {
     const {name,descr,thumb} = this.props.movie
@@ -94,3 +88,11 @@ class HeroMovie extends React.Component {
     )
   }
 }
+
+HeroMovie.propTypes = {
+  movie: PropTypes.shape({
+    name: PropTypes.string,
+    descr: PropTypes.string,
+    thumb: PropTypes.string,
+  }),
+};

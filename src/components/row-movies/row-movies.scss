@@ -35,9 +35,9 @@
   &__list {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(5,auto);
+    grid-template-columns: repeat(5,1fr);
     justify-content: space-between;
-    row-gap: 50px;
+    gap: 50px 30px;
     
   };
 

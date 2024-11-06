@@ -2,17 +2,18 @@ import PropTypes from 'prop-types'
 import './movies-list-item.scss'
 
 const MoviesListItem = ({data,onToggle}) => {
-  const {src,alt,year,duration,name} = data
+  const {thumb,alt,release,name,} = data
+  console.log(name)
   return (
     <li onClick={onToggle} className='rowmovies__list-item'>
-      <img src={src}  alt={alt} className="rowmovies__list-item--img" />
+      <img src={thumb}  alt={alt} className="rowmovies__list-item--img" />
       <p className="rowmovies__list-item--name">{name}</p>
       <p className="rowmovies__list-item--info">
-        <span>{year}</span>
+        <span>{release}</span>
         <span className="br-dot">
           <i className="fa-solid fa-circle"></i>
         </span>
-        <span>{duration}m</span>
+        <span>{132}m</span>
       </p>
     </li>
   )

@@ -1,8 +1,7 @@
 import img from '/tranding.svg'
 import './row-movies.scss'
-import { movieList } from '../../contants'
 import React from 'react'
-// import { MovieService } from '../movie-service/movie-service'
+import { MovieService } from '../movie-service/movie-service'
 import MoviesListItem from '../movies-list-item/movies-list-item'
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
@@ -10,7 +9,25 @@ import MovieInfo from '../movie-info/movie-info'
 class RowMovies extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {open: false}
+    this.state = {
+      movieList: [],
+      open: false,
+    }
+  }
+
+
+  movieService = new MovieService()
+  
+  getPopularMovies() {
+    this.movieService._filterPopularMovie()
+    .then(res => {
+      this.setState({movieList: res})
+      console.log(res)
+    })
+  }
+  
+  componentDidMount() {
+    this.getPopularMovies()
   }
   onToggle = () => {
     this.setState(state => ({open: !state.open}))
@@ -29,7 +46,7 @@ class RowMovies extends React.Component {
           <a href="#" className="rowmovies__top-more">See More</a>
         </div>
         <ul className="rowmovies__list">
-          {movieList.map( item => (<MoviesListItem key={item.id} data={item} onToggle={this.onToggle}/>))}
+          {this.state.movieList.map( item => (<MoviesListItem key={item.id} data={item} onToggle={this.onToggle}/>))}
         </ul>
         <Modal open={this.state.open} onClose={this.onToggle}>
           <MovieInfo></MovieInfo>

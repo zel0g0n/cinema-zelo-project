@@ -1,7 +1,7 @@
 import img from '/tranding.svg'
 import './row-movies.scss'
 import { useEffect, useState } from 'react'
-import { MovieService } from '../movie-service/movie-service'
+import { useMovieService } from '../movie-service/movie-service'
 import MoviesListItem from '../movies-list-item/movies-list-item'
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
@@ -15,8 +15,9 @@ const RowMovies = () => {
     detailsMovie: {},
     page: 2
   })
+  
 
-  const movieService = new MovieService()
+  const movieService = useMovieService()
 
   function getPopularMovies() {
     movieService._filterPopularMovie()
@@ -28,11 +29,11 @@ const RowMovies = () => {
     const {page} = state
     movieService.loadMore(page)
     .then(res => {
-      setState(({page,movieList}) => (
+      setState((prevData) => (
         {
-          ...state,
-          page: page+1,
-          movieList: [...movieList,...res]
+          ...prevData,
+          page: prevData.page+1,
+          movieList: [...prevData.movieList,...res]
         }
       ))
     })

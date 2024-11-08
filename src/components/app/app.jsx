@@ -2,7 +2,6 @@ import Header from "../header/header"
 import Hero from "../hero/hero"
 import RowMovies from "../row-movies/row-movies"
 import { ErrorBoundary } from "../error-boundary/error-catch"
-// import { MovieService } from "../movie-service/movie-service"
 import './app.scss'
 const App = () => {
   return (

@@ -1,33 +1,34 @@
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import './hero.scss'
-import { MovieService } from '../movie-service/movie-service'
+import { useMovieService } from '../movie-service/movie-service'
+import Loading from '../loading/loading'
 const Hero = () => {
   const [data,setData] = useState({
     movie: {},
     isLoad: false,
     err: false,
   })
-  const movieService = new MovieService()
+  const movieService = useMovieService()
+  console.log(movieService)
 
   const getMovie = () => {
     movieService.getRandomMovie()
     .then(res => {
-      setData({...data,movie: res})
+      console.log(res)
+      setData(prevData => ({...prevData, movie: res}))
     })
     .catch( err => {
-      setData({...data,err: true})
+      setData(prevData => ({...prevData, err: true}))
       console.log(`Error: ${err}`)
     })
     .finally(() => {
-      setData({...data,isLoad: true})
+      setData(prevData => ({...prevData, isLoad: true}))
     })
   }
 
   useEffect(()=>getMovie(),[])
-
   const {movie,isLoad,err} = data
-    
     return (
 
       <>
@@ -48,7 +49,7 @@ const Hero = () => {
 
           <div style={{display: (err)?'none':''}} className="hero__movie">
             <div className="hero__movie-item">
-              {(isLoad)?<HeroMovie movie={movie}/>:<div className="loader"></div>}
+              {(isLoad)?<HeroMovie movie={movie}/>:<Loading/>}
             </div>
             <div className="hero__movie-btns">
               <button className="btn btn-primary">Details</button>
@@ -64,6 +65,7 @@ const Hero = () => {
 
 export default Hero
 const HeroMovie = (props) => {
+  
   const {name,descr,thumb} = props.movie
     return (
       <>

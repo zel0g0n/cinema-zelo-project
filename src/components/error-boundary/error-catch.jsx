@@ -1,7 +1,7 @@
 import React from "react";
 class ErrorBoundary extends React.Component {
   state = {
-    error: true
+    error: false
   }
 
   componentDidCatch(error, info) {

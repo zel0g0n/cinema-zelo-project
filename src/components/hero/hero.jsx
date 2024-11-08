@@ -1,39 +1,32 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import './hero.scss'
 import { MovieService } from '../movie-service/movie-service'
-class Hero extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      movie: {},
-      isLoad: false,
-      err: false,
-    }
+const Hero = () => {
+  const [data,setData] = useState({
+    movie: {},
+    isLoad: false,
+    err: false,
+  })
+  const movieService = new MovieService()
 
-  }
-  movieService = new MovieService()
-
-  getMovie = () => {
-    this.movieService.getRandomMovie()
+  const getMovie = () => {
+    movieService.getRandomMovie()
     .then(res => {
-      this.setState({movie: res})
+      setData({...data,movie: res})
     })
     .catch( err => {
-      this.setState({err: true})
+      setData({...data,err: true})
       console.log(`Error: ${err}`)
     })
     .finally(() => {
-      this.setState({isLoad: true})
+      setData({...data,isLoad: true})
     })
   }
-  
-  componentDidMount() {
-    this.getMovie()
-  }
 
-  render() {
-    const {movie,isLoad,err} = this.state
+  useEffect(()=>getMovie(),[])
+
+  const {movie,isLoad,err} = data
     
     return (
 
@@ -66,15 +59,12 @@ class Hero extends React.Component {
         
       </>
     )
-  }
 }
 
+
 export default Hero
-
-class HeroMovie extends React.Component {
-
-  render() {
-    const {name,descr,thumb} = this.props.movie
+const HeroMovie = (props) => {
+  const {name,descr,thumb} = props.movie
     return (
       <>
         <img src={thumb} alt="movie-img" className="hero__movie-img" />
@@ -86,8 +76,8 @@ class HeroMovie extends React.Component {
         </div>
       </>
     )
-  }
 }
+
 
 HeroMovie.propTypes = {
   movie: PropTypes.shape({

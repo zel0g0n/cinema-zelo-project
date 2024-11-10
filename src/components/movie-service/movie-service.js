@@ -31,11 +31,9 @@ const  useMovieService = () => {
   }
 
   const _filterPopularMovie = async (func) => {
-    console.log(func)
     const res = await func()
     const moviesList = res.results
     return await Promise.all(moviesList.map(item =>  _transformMovie(item)))
-    
   }
   
   

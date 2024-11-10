@@ -3,19 +3,19 @@ import PropTypes from 'prop-types'
 import './hero.scss'
 import { useMovieService } from '../movie-service/movie-service'
 import Loading from '../loading/loading'
+import { useNavigate } from 'react-router-dom'
 const Hero = () => {
+  const navigate = useNavigate()
   const [data,setData] = useState({
     movie: {},
     isLoad: false,
     err: false,
   })
   const movieService = useMovieService()
-  console.log(movieService)
 
   const getMovie = () => {
     movieService.getRandomMovie()
     .then(res => {
-      console.log(res)
       setData(prevData => ({...prevData, movie: res}))
     })
     .catch( err => {
@@ -27,6 +27,7 @@ const Hero = () => {
     })
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(()=>getMovie(),[])
   const {movie,isLoad,err} = data
     return (
@@ -52,8 +53,7 @@ const Hero = () => {
               {(isLoad)?<HeroMovie movie={movie}/>:<Loading/>}
             </div>
             <div className="hero__movie-btns">
-              <button className="btn btn-primary">Details</button>
-              <button className="btn btn-secondary">Random Movie</button>
+              <button onClick={() => navigate(`/movie/${movie.id}`)} className="btn btn-primary">Details</button>
             </div>
           </div>
         </div>

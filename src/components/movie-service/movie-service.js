@@ -7,7 +7,6 @@ const  useMovieService = () => {
         _apiImg = 'https://image.tmdb.org/t/p/original/'
 
   const getAllPopular = async () => {
-    console.log(await request(`${_apiBase}/movie/popular?${_apiLanguage}&page=1&${_apiKey}`))
     return request(`${_apiBase}/movie/popular?${_apiLanguage}&page=1&${_apiKey}`)
   }
   const getAllTranding = async () => {
@@ -31,8 +30,9 @@ const  useMovieService = () => {
 
   }
 
-  const _filterPopularMovie = async () => {
-    const res = await getAllPopular()
+  const _filterPopularMovie = async (func) => {
+    console.log(func)
+    const res = await func()
     const moviesList = res.results
     return await Promise.all(moviesList.map(item =>  _transformMovie(item)))
     
@@ -43,13 +43,13 @@ const  useMovieService = () => {
   const _transformMovie = async (movie) => {
     return {
       name: movie.original_title,
-      descr: (movie.overview.length > 200)?movie.overview.slice(0,200)+'...':movie.overview,
+      descr: movie.overview,
       thumb: `${_apiImg}${movie.backdrop_path}`,
       id: movie.id,
       release: movie.release_date.slice(0,4),
     }
   }
 
-  return {_filterPopularMovie,loadMore,getRandomMovie,getAllTranding,getDetailedMovie}
+  return {_filterPopularMovie,loadMore,getRandomMovie,getDetailedMovie,getAllPopular,getAllTranding}
 }
 export {useMovieService}

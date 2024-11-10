@@ -24,4 +24,15 @@
       color: #fff;
     }
   }
+  &-detail {
+    margin-top: 20px;
+    background-color: transparent;
+    border: 1px solid #000;
+    color: #000;
+    &:hover {
+      background-color: #000;
+      border-color: rgba(255,255,255,.1);
+      color: #fff;
+    }
+  }
 }

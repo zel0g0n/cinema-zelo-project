@@ -1,0 +1,21 @@
+.detailed {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 1330px;
+  margin: 40px auto;
+  &__item {
+    width: 48%;
+    height: 80vh;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 48%;
+  }
+}

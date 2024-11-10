@@ -6,6 +6,7 @@ import MoviesListItem from '../movies-list-item/movies-list-item'
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
 import MovieInfo from '../movie-info/movie-info'
+import { useLocation } from 'react-router-dom'
 
 
 const RowMovies = () => {
@@ -17,17 +18,21 @@ const RowMovies = () => {
   })
   
 
-  const movieService = useMovieService()
+  const {getAllTranding,getAllPopular,_filterPopularMovie,loadMore,getDetailedMovie} = useMovieService()
+  const {pathname} = useLocation()
 
-  function getPopularMovies() {
-    movieService._filterPopularMovie()
+  function getChoosenMovies(func) {
+    _filterPopularMovie(func)
     .then(res => {
       setState({...state,movieList: res})
     })
   }
+  
+  
+  
   const loadMoreMovies = () => {
     const {page} = state
-    movieService.loadMore(page)
+    loadMore(page)
     .then(res => {
       setState((prevData) => (
         {
@@ -38,17 +43,24 @@ const RowMovies = () => {
       ))
     })
   }
-  useEffect(()=>getPopularMovies(),[])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(()=>{
+    if(pathname=='/popular') {
+      getChoosenMovies(getAllPopular)
+    }else {
+      getChoosenMovies(getAllTranding)
+    }
+  },[pathname])
 
   const closeModal = () => {
-    setState({...state,open: false})
+    setState(prevState => ({...prevState,open: false}))
     
   }
 
   const openModal  = (id) => {
-    movieService.getDetailedMovie(id)
+    getDetailedMovie(id)
     .then(res => {
-      setState({...state,detailsMovie: res,open: true})
+      setState(prevState => ({...prevState,detailsMovie: res,open: true}))
     })
   }
   
@@ -59,7 +71,7 @@ const RowMovies = () => {
       <div className="rowmovies__top">
         <div className="rowmovies__top-title">
           <img src={img} alt="tranding" />
-          <h3>Trending</h3>
+          <h3>{(pathname=='/popular')?"Popular":"Tranding"}</h3>
         </div>
         <div className="hr"></div>
         <a href="#" className="rowmovies__top-more">See More</a>
